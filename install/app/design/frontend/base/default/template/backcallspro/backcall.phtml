@@ -1,0 +1,196 @@
+<?php
+/**
+ *
+ * This source file is subject to the Ecommerce Shift Software License, which is available at http://ecommerceshift.com/common/license-commercial-ru.txt.
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ *
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   Eshift
+ * @package    Eshift_Backcallspro
+ * @copyright  Copyright (c) 2013 Ecommerce Shift (http://ecommerceshift.com/)
+ * @contacts   support@ecommerceshift.com
+ * @author     Alexander Dashkov (dashkov1@gmail.com)
+ * @license    http://ecommerceshift.com/common/license-commercial-ru.txt
+ */
+?>
+
+<?php if ($this->helper('backcallspro')->isEnabled() && $this->helper('escommon')->isUserEmailSet()): ?>
+<?php $btn_type = $this->helper('backcallspro')->getBtnType(); ?>
+<div style="display:none;">
+   <div id="call_btn_pro">
+      <?php for ($i=1; $i<=3; $i++)  { ?>
+          <?php if ($this->helper('backcallspro')->getPhoneBig($i) != ''): ?>
+            <div class="bc_phone_big bc_phone_big_1"><span><?php echo $this->helper('backcallspro')->getPhoneBig($i) ?></span></div>
+          <?php endif ;?>
+           <?php if ($this->helper('backcallspro')->getPhoneSmall($i) != ''): ?>
+               <div class="bc_phone_small phone_small_1"><span><?php echo $this->helper('backcallspro')->getPhoneSmall($i) ?></span></div>
+           <?php endif ;?>
+       <?php } ?>
+      <<?php echo $btn_type;?> title="<?php echo $this->helper('backcallspro')->getBtnText() ?>" class="button btn-backcallpro"  href="#backcallproBlock"><span><span><?php echo $this->helper('backcallspro')->getBtnText() ?></span></span></<?php echo $btn_type;?>>
+   </div>
+
+        <div id="backcallproBlock">
+            <div id="resultBackcall"></div>
+            <div id="backcallproFormAjaxLoading"></div>
+                <div id="backcallproFormWrapper">
+                    <form action="<?php echo $this->getUrl('backcallspro/index/post'); ?>" id="backcallproForm" method="post">
+                        <div class="fieldset">
+                            <h2 class="legend"><?php echo $this->helper('backcallspro')->showFormTitle() ?></h2>
+                            <ul class="form-list">
+
+                                <?php if ($this->helper('backcallspro')->isNameEnabled()): ?>
+                                    <li>
+                                        <div>
+                                            <label for="name" class="required"><em>*</em><?php echo Mage::helper('backcallspro')->__('Your Name') ?></label>
+                                            <div class="input-box">
+                                                <input name="name" id="name" title="<?php echo Mage::helper('backcallspro')->__('Your Name') ?>" value="<?php echo $this->htmlEscape($this->helper('backcallspro')->getUserName()) ?>" class="input-text required-entry" type="text" maxlength="30" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
+
+                                <li>
+                                    <label for="telephone" class="required"><em>*</em><?php echo Mage::helper('backcallspro')->__('Your Telephone') ?></label>
+                                    <div class="input-box">
+                                        <input name="telephone" id="telephone" title="<?php echo Mage::helper('backcallspro')->__('Your Telephone') ?>" value="" class="input-text required-entry" type="text" maxlength="30"/>
+                                    </div>
+                                </li>
+                                <?php if ($this->helper('backcallspro')->isTimeEnabled()): ?>
+                                    <li>
+                                        <label for="time" class="required"><em>*</em><?php echo Mage::helper('backcallspro')->__('Time for backcall') ?></label>
+                                        <div class="input-box">
+                                            <input name="time" id="time" title="<?php echo Mage::helper('backcallspro')->__('Time for backcall') ?>" class="input-text required-entry" type="text" maxlength="30"/>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php if ($this->helper('backcallspro')->isCommentEnabled()): ?>
+                                    <li>
+                                        <label for="comment"><?php echo Mage::helper('contacts')->__('Comment') ?></label>
+                                        <div class="input-box">
+                                            <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="input-text" cols="5" rows="3" maxlength="200"></textarea>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
+
+                            </ul>
+                        </div>
+                        <div class="buttons-set">
+                            <p class="required"><?php echo Mage::helper('backcallspro')->__('* Required Fields') ?></p>
+                            <input name="lasturl" id="lasturl" value="" type="text" maxlength="256" style="display:none !important;" />
+
+                            <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+                            <button type="submit" title="<?php echo Mage::helper('backcallspro')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('backcallspro')->__('Submit') ?></span></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+<?php
+$bc_custom_css = $this->helper('backcallspro')->getCustomCss();
+?>
+<style type="text/css">
+    #backcallproBlock {position:relative;}
+    #backcallproFormAjaxLoading {position:absolute; background: url('<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif')?>') 50% 50% no-repeat; width:100%; height:100%; display:none;}
+    #resultBackcall {display:none;}
+    <?php    if ($bc_custom_css): ?>
+        <?php echo $bc_custom_css; ?>
+    <?php endif; ?>
+</style>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var backcallForm = new VarienForm('backcallproForm', true);
+
+$es(document).ready(function() {
+
+    $es("#backcallproForm input#lasturl").val(document.URL);
+
+    <?php
+    $bcAutosize = 'true';
+    if ($this->helper('backcallspro')->getPopupWidth() && $this->helper('backcallspro')->getPopupHeight()) $bcAutosize = 'false';
+    ?>
+    $es(".btn-backcallpro").fancybox({
+            type : 'inline',
+            autoSize : <?php echo $bcAutosize ?>,
+            helpers : {
+                    title : null
+                }
+            <?php if ($bcAutosize == 'false'): ?>
+                ,width : <?php echo $this->helper('backcallspro')->getPopupWidth() ?>
+                ,height : <?php echo $this->helper('backcallspro')->getPopupHeight() ?>
+            <?php endif; ?>
+        });
+
+    $es('#backcallproForm').submit(function(e) {
+        if (backcallForm.validator.validate()) {
+            $es('#backcallproFormWrapper').css('opacity',0.3);
+            $es('#backcallproFormAjaxLoading').fadeIn();
+
+            var postData = $es(this).serialize();
+            var formURL = $es(this).attr("action");
+            $es.post(
+                formURL,
+                postData,
+                function( data ) {
+                    $es( '#resultBackcall' ).html( data.message );
+                    $es('#backcallproFormAjaxLoading').fadeOut(400, function() {
+                        $es('#backcallproFormWrapper').slideUp(400, function() {
+                            $es( '#resultBackcall').slideDown();
+                            $es.fancybox.update();
+                            });
+                        });
+                },
+                'json'
+            );
+            e.preventDefault();
+        }
+    });
+
+<?php if ($this->helper('backcallspro')->isInsertManually()):
+$css_selector = $this->helper('backcallspro')->isInsertManually();
+?>	
+if (($es('<?php echo $css_selector ?>').length > 0))  {
+   $es('#call_btn_pro').clone(true).appendTo($es('<?php echo $css_selector ?>'));
+      };
+<?php endif; ?>
+
+<?php if ($this->helper('backcallspro')->isInsertHeader()):?>
+    var $header = $es('.header').length > 0 ? $es('.header') : $es('header');
+    var $logoBlock = $header.children('.logo').eq(0);
+
+if (!($header.children('.btn-backcall').length > 0))  {
+   $es('#call_btn_pro').clone(true).insertAfter($logoBlock);
+      };
+<?php endif; ?>
+
+<?php if ($this->helper('backcallspro')->isInsertLeft()):?>	
+if (!($es('.col-left.sidebar .btn-backcallpro').length > 0))  {
+   $es('#call_btn_pro').clone(true).addClass('bc_left').prependTo($es('.col-left.sidebar'));
+      };
+<?php endif; ?>
+
+<?php if ($this->helper('backcallspro')->isInsertRight()):?>	
+if (!($es('.col-right.sidebar .btn-backcallpro').length > 0))  {
+   $es('#call_btn_pro').clone(true).addClass('bc_right').prependTo($es('.col-right.sidebar'));
+      };
+<?php endif; ?>
+
+});
+    //]]>
+</script>
+<?php
+endif;
+?>
+
+

@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * This source file is subject to the Ecommerce Shift Software License, which is available at http://ecommerceshift.com/common/license-commercial-ru.txt.
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ *
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   Eshift
+ * @package    Eshift_Backcallspro
+ * @copyright  Copyright (c) 2013 Ecommerce Shift (http://ecommerceshift.com/)
+ * @contacts   support@ecommerceshift.com
+ * @author     Alexander Dashkov (dashkov1@gmail.com)
+ * @license    http://ecommerceshift.com/common/license-commercial-ru.txt
+ */
+-->
+<config>
+    <modules>
+        <Eshift_Backcallspro>
+            <version>1.0.0</version>
+        </Eshift_Backcallspro>
+    </modules>
+    <frontend>
+        <routers>
+            <backcallspro>
+                <use>standard</use>
+                <args>
+                    <module>Eshift_Backcallspro</module>
+                    <frontName>backcallspro</frontName>
+                </args>
+            </backcallspro>
+        </routers>
+        <translate>
+            <modules>
+                <Eshift_Backcallspro>
+                    <files>
+                        <default>Eshift_Backcallspro.csv</default>
+                    </files>
+                </Eshift_Backcallspro>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <backcallspro>
+                    <file>backcallspro.xml</file>
+                </backcallspro>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        
+         <blocks>
+            <backcallspro>
+                <class>Eshift_Backcallspro_Block</class>
+            </backcallspro>
+         </blocks>
+        <helpers>
+            <backcallspro>
+              <class>Eshift_Backcallspro_Helper</class>
+            </backcallspro>
+        </helpers>
+        
+        <models>
+            <backcallspro>
+                <class>Eshift_Backcallspro_Model</class>
+            </backcallspro>
+        </models>
+        
+        <template>
+            <email>
+                <backcallspro_email_email_template translate="label" module="backcallspro">
+                    <label>Backcall Pro Form</label>
+                    <file>backcallpro_form.html</file>
+                    <type>text</type>
+                </backcallspro_email_email_template>
+            </email>
+        </template> 
+        
+    </global>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Eshift_Backcallspro>
+                    <files>
+                        <default>Eshift_Backcallspro.csv</default>
+                    </files>
+                </Eshift_Backcallspro>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <backcallspro>
+            <backcallspro>
+                <enabled>1</enabled>
+                <btn_text>Обратный Звонок</btn_text>
+            </backcallspro>
+            <button>
+                <phone_big1><![CDATA[+7 (495) 123-45-67]]></phone_big1>
+                <phone_small1><![CDATA[Работаем с 10 до 20]]></phone_small1>
+                <phone_big2><![CDATA[8 (800) 123-23-23]]></phone_big2>
+                <phone_small2><![CDATA[Бесплатно по России]]></phone_small2>
+                <btn_type>a</btn_type>
+                <btn_text>Обратный Звонок</btn_text>
+                <btn_custom_css><![CDATA[.bc_phone_big  { font-size:1.2em; font-weight: bold; color: #FFAC17; }
+.bc_phone_small { font-size:0.8em; color: grey; margin-bottom: 2px; }
+#call_btn_pro {margin: 0px 0 10px 10px; float: left;}
+#call_btn_pro a {text-decoration: none; border-bottom:1px dashed;}]]></btn_custom_css>
+                <btn_header_position>1</btn_header_position>
+            </button>
+            <form>
+                <title>Обратный Звонок</title>
+                <name_enabled>1</name_enabled>
+                <success_message>Спасибо, ваша заявка получена. В ближайшее время менеджер свяжется с вами.</success_message>
+                <fail_message>Невозможно отправить ваш запрос. Пожалуйста, повторите попытку позже.</fail_message>
+            </form>
+            <email>
+                <recipient_email><![CDATA[hello@example.com]]></recipient_email>
+                <sender_email_identity>general</sender_email_identity>
+                <email_template>backcallspro_email_email_template</email_template>
+            </email>
+            <smsnotification>
+                <enabled>0</enabled>
+                <sms_header>Обратный Звонок:</sms_header>
+            </smsnotification>
+        </backcallspro>
+        <escommon>
+            <jquery>
+                <enabled19>1</enabled19>
+                <migrate12>1</migrate12>
+                <fancybox13>1</fancybox13>
+            </jquery>
+        </escommon>
+    </default>
+</config>

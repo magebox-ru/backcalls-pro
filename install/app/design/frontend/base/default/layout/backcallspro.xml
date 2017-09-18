@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * This source file is subject to the Ecommerce Shift Software License, which is available at http://ecommerceshift.com/common/license-commercial-ru.txt.
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ *
+ * NOTICE OF LICENSE
+ *
+ * You may not sell, sub-license, rent or lease
+ * any portion of the Software or Documentation to anyone.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @category   Eshift
+ * @package    Eshift_Backcallspro
+ * @copyright  Copyright (c) 2013 Ecommerce Shift (http://ecommerceshift.com/)
+ * @contacts   support@ecommerceshift.com
+ * @author     Alexander Dashkov (dashkov1@gmail.com)
+ * @license    http://ecommerceshift.com/common/license-commercial-ru.txt
+ */
+-->
+
+<layout version="0.1.0">
+    <default>       
+        <reference name="before_body_end">
+            <block type="escommon/template" name="backcallproadd" as="backcallproadd" template="backcallspro/backcall.phtml" />
+        </reference>
+    </default>
+</layout>
